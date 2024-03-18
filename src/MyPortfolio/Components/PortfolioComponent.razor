@@ -1,0 +1,49 @@
+@using System.Net.Http.Json
+@using MyPortfolio.Models
+
+<section class="light" id="portfolio">
+    <h2>Portfolio</h2>
+    <div class="portfolio-container">
+    @if (projects is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <div class="portfolio-hero">
+            @if (heroPortfolio is not null)
+            {
+                <img src="@(heroPortfolio.Src)" style="height: 90%; width: 100%; object-fit: cover;" alt="@(heroPortfolio.Alt)" />
+            }
+        </div>
+        <div class="container">
+            @foreach (var project in projects)
+            {
+                <div class="box" key="@project.Title">
+                    <a href="@project.Url" target="_blank" rel="noopener noreferrer">
+                        <h3 style="flex-basis: 40px;">@project.Title</h3>
+                    </a>
+                    <p class="small">@project.Description</p>
+                </div>
+            }
+        </div>
+    }
+    </div>
+</section>
+
+@code {
+    private List<Project>? projects;
+    private HeroImage? heroPortfolio;
+    
+    [Parameter, EditorRequired]
+    public HttpClient? Http { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public List<HeroImage> HeroImages { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        projects = await Http.GetFromJsonAsync<List<Project>>("sample-data/projects.json");
+        heroPortfolio = HeroImages.SingleOrDefault(h => h.Name == "portfolio");
+    }
+}
