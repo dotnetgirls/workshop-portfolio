@@ -24,10 +24,14 @@ There is already a GitHub Actions workflow file in the `.github/workflows` direc
 1. Update the `on` section to trigger the workflow to only pick up changes from our workshop directory.
 
     ```yaml
-    # Remove this line
-    on: [ push, workflow_dispatch ]
+    # Before
+    on:
+      workflow_dispatch:
+      push:
+        paths:
+          - 'src/MyPortfolio/**'
     
-    # Add the following lines
+    # After
     on:
       workflow_dispatch:
       push:
@@ -38,6 +42,28 @@ There is already a GitHub Actions workflow file in the `.github/workflows` direc
 1. Update the following steps to build and publish the application to GitHub Pages.
 
     ```yaml
+    # Before
+    - name: Restore NuGet packages
+        shell: bash
+        run: |
+        dotnet restore ./src
+    
+    - name: Build solution
+        shell: bash
+        run: |
+        dotnet build ./src -c Release
+    
+    - name: Test solution
+        shell: bash
+        run: |
+        dotnet test ./src -c Release
+    
+    - name: Publish artifact
+        shell: bash
+        run: |
+        dotnet publish ./src/MyPortfolio -c Release -o published
+
+    # After
     - name: Restore NuGet packages
         shell: bash
         run: |
@@ -96,9 +122,31 @@ There is already a GitHub Actions workflow file in the `.github/workflows` direc
 
     ![GitHub Pages error](./images/07-deploy-gh-pages-05.png)
 
-1. Open the `publish-gh-pages.yml` file in the `.github/workflows` directory, uncomment the following tasks and change the directory.
+1. Open the `publish-gh-pages.yml` file in the `.github/workflows` directory and update the following tasks and change the directory.
 
     ```yaml
+    # Before
+    - name: Set basepath on index.html
+        shell: pwsh
+        run: |
+          $filepath = "./src/MyPortfolio/wwwroot/index.html"
+          $repository = "${{ github.repository }}" -replace "${{ github.repository_owner }}", ""
+      
+          $html = Get-Content -Path $filepath
+          $html -replace "<base href=`"/`" />", "<base href=`"$repository/`" />" | Out-File -Path $filepath -Force
+    
+    - name: Set basepath on JSON objects
+        shell: pwsh
+        run: |
+          $filepath = "./src/MyPortfolio/wwwroot/sample-data"
+          $repository = "${{ github.repository }}" -replace "${{ github.repository_owner }}", ""
+      
+          Get-ChildItem -Path $filepath -Filter "*.json" | ForEach-Object {
+              $json = Get-Content -Path $_.FullName
+              $json.Replace("../", "$repository/") | Out-File -Path $_.FullName -Force
+          }
+
+    # After
     - name: Set basepath on index.html
         shell: pwsh
         run: |
