@@ -10,7 +10,7 @@ If you haven't completed the previous step or want to start from the save point,
 
 ```bash
 cd $CODESPACE_VSCODE_FOLDER
-mkdir -p workshop && cp -a workshop-docs/save-points/step-04/. workshop/
+mkdir -p workshop && cp -a save-points/step-04/. workshop/
 cd workshop
 ```
 

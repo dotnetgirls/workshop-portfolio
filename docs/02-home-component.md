@@ -12,7 +12,7 @@ If you haven't completed the previous step or want to start from the save point,
 
 ```bash
 cd $CODESPACE_VSCODE_FOLDER
-mkdir -p workshop && cp -a workshop-docs/save-points/step-01/. workshop/
+mkdir -p workshop && cp -a save-points/step-01/. workshop/
 cd workshop
 ```
 
@@ -46,18 +46,18 @@ We need to clean up the default layout to make our portfolio site look better.
     </div>
     ```
 
-1. Copy the site layout CSS from the `workshop-docs/css` directory to the `MyPortfolio/wwwroot/css` directory.
+1. Copy the site layout CSS from the `docs/css` directory to the `MyPortfolio/wwwroot/css` directory.
 
     ```bash
     mkdir -p $CODESPACE_VSCODE_FOLDER/workshop/MyPortfolio/wwwroot/css
-    cp -a $CODESPACE_VSCODE_FOLDER/workshop-docs/css/. $CODESPACE_VSCODE_FOLDER/workshop/MyPortfolio/wwwroot/css/
+    cp -a $CODESPACE_VSCODE_FOLDER/docs/css/. $CODESPACE_VSCODE_FOLDER/workshop/MyPortfolio/wwwroot/css/
     ```
 
-1. Copy the relevant images from the `workshop-docs/images` directory to the `MyPortfolio/wwwroot/images` directory.
+1. Copy the relevant images from the `docs/images` directory to the `MyPortfolio/wwwroot/images` directory.
 
     ```bash
     mkdir -p $CODESPACE_VSCODE_FOLDER/workshop/MyPortfolio/wwwroot/images
-    cp -a $CODESPACE_VSCODE_FOLDER/workshop-docs/images/. $CODESPACE_VSCODE_FOLDER/workshop/MyPortfolio/wwwroot/images/
+    cp -a $CODESPACE_VSCODE_FOLDER/docs/images/. $CODESPACE_VSCODE_FOLDER/workshop/MyPortfolio/wwwroot/images/
     ```
 
 ## Step 2: Update `Home` component
