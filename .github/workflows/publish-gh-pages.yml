@@ -1,6 +1,10 @@
 name: Publish Blazor App to GitHub Pages
 
-on: [ push, workflow_dispatch ]
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/MyPortfolio/**'
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -31,7 +35,7 @@ jobs:
     # - name: Set basepath on index.html
     #   shell: pwsh
     #   run: |
-    #     $filepath = "./src/BlazorApp/wwwroot/index.html"
+    #     $filepath = "./src/MyPortfolio/wwwroot/index.html"
     #     $repository = "${{ github.repository }}" -replace "${{ github.repository_owner }}", ""
 
     #     $html = Get-Content -Path $filepath
@@ -40,7 +44,7 @@ jobs:
     # - name: Set basepath on JSON objects
     #   shell: pwsh
     #   run: |
-    #     $filepath = "./src/BlazorApp/wwwroot/sample-data"
+    #     $filepath = "./src/MyPortfolio/wwwroot/sample-data"
     #     $repository = "${{ github.repository }}" -replace "${{ github.repository_owner }}", ""
 
     #     Get-ChildItem -Path $filepath -Filter "*.json" | ForEach-Object {
@@ -51,22 +55,22 @@ jobs:
     - name: Restore NuGet packages
       shell: bash
       run: |
-        dotnet restore .
+        dotnet restore ./src
 
     - name: Build solution
       shell: bash
       run: |
-        dotnet build .
+        dotnet build ./src -c Release
 
     - name: Test solution
       shell: bash
       run: |
-        dotnet test . -c Release
+        dotnet test ./src -c Release
 
     - name: Publish artifact
       shell: bash
       run: |
-        dotnet publish src/BlazorApp -c Release -o published
+        dotnet publish ./src/MyPortfolio -c Release -o published
 
     - name: Upload artifact for web
       uses: actions/upload-pages-artifact@v1

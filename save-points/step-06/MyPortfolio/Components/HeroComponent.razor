@@ -1,0 +1,42 @@
+@using System.Net.Http.Json
+@using MyPortfolio.Models
+
+<section class="dark" id="home">
+    @if (heroHome is not null)
+    {
+        <img class="background" src="@(heroHome.Src)" alt="@(heroHome.Alt)" />
+    }
+    <div style="position: absolute; top: 30%; left: 2rem;">
+    @if (property is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <h1>@property.Name</h1>
+        <h2>@property.Title</h2>
+    }
+    </div>
+    <div style="position: absolute; bottom: 8rem; left: 50%;">
+        <a href="#about" target="_top">
+            <img src="images/down-arrow.svg" style="height: 3rem; width: 3rem;" alt="scroll down" />
+        </a>
+    </div>
+</section>
+
+@code {
+    private SiteProperties? property;
+    private HeroImage? heroHome;
+
+    [Parameter, EditorRequired]
+    public HttpClient? Http { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public List<HeroImage> HeroImages { get; set; } = default!;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        property = await Http.GetFromJsonAsync<SiteProperties>("sample-data/siteproperties.json");
+        heroHome = HeroImages.SingleOrDefault(h => h.Name == "home");
+    }
+}

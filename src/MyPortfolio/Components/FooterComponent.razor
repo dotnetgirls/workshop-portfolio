@@ -1,0 +1,53 @@
+@using System.Net.Http.Json
+@using MyPortfolio.Models
+
+<div id="contact" style="background-color: @BackgroundColor;">
+    @if (property is null)
+    {
+        <div style="display: flex; justify-content: center; gap: 2.5rem;">
+            <p><em>Loading...</em></p>
+        </div>
+    }
+    else if (icons is not null)
+    {
+        <div style="display: flex; justify-content: center; gap: 2.5rem;">
+            @if (string.IsNullOrWhiteSpace(property.Email) is false)
+            {
+                <a href="mailto:@(property.Email)">
+                    <img src="@icons.Email" alt="email" class="social-icon" />
+                </a>
+            }
+            @if (string.IsNullOrWhiteSpace(property.LinkedIn) is false)
+            {
+                <a href="https://linkedin.com/in/@(property.LinkedIn)" target="_blank" rel="noopener noreferrer">
+                    <img src="@icons.LinkedIn" alt="LinkedIn" class="social-icon" />
+                </a>
+            }
+            @if (string.IsNullOrWhiteSpace(property.GitHub) is false)
+            {
+                <a href="https://github.com/@(property.GitHub)" target="_blank" rel="noopener noreferrer">
+                    <img src="@icons.GitHub" alt="GitHub" class="social-icon" />
+                </a>
+            }
+        </div>
+        <p class="small" style="margin-top: 0; color: white;">Created by @property.Name</p>
+    }
+</div>
+
+@code {
+    private SiteProperties? property;
+    private SocialIcons? icons;
+
+    [Parameter, EditorRequired]
+    public HttpClient? Http { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public string? BackgroundColor { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        property = await Http.GetFromJsonAsync<SiteProperties>("sample-data/siteproperties.json");
+
+        icons = await Http.GetFromJsonAsync<SocialIcons>("sample-data/socialicons.json");
+    }
+}
