@@ -19,6 +19,7 @@ cd workshop
 1. Create a new file called `HeaderComponent.razor` in the `MyPortfolio/Components` directory.
 
     ```bash
+    mkdir -p $CODESPACE_VSCODE_FOLDER/workshop/MyPortfolio/Components
     touch MyPortfolio/Components/HeaderComponent.razor
     ```
 

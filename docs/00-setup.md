@@ -44,12 +44,19 @@ You have forked the repository to your GitHub account. Now, you can start coding
     dotnet --list-sdks
     ```
 
-1. You should see the .NET SDK version `6.x`, `7.x` and `8.x` like below.
+1. You should see the .NET SDK version `6.x`, `7.x` and `8.x` like below. The last 3 digit might be different from what you see, but the first digit should be `6`, `7` and `8`.
 
     ```bash
     6.0.420 [/usr/share/dotnet/sdk]
     7.0.407 [/usr/share/dotnet/sdk]
     8.0.202 [/usr/share/dotnet/sdk]
+    ```
+
+1. Make sure you're in the repository root directory.
+
+    ```bash
+    cd $CODESPACE_VSCODE_FOLDER
+    echo $CODESPACE_VSCODE_FOLDER
     ```
 
 ---
