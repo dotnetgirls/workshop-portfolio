@@ -38,6 +38,21 @@ You have forked the repository to your GitHub account. Now, you can start coding
 
     ![Codespace workspace](./images/00-setup-06.png)
 
+1. In the terminal, enter the following command to see whether your codespace has a proper repository setup.
+
+    ```bash
+    git remote -v
+    ```
+
+    You should see the output like below.
+
+    ```bash
+    origin  https://github.com/{{YOUR_GITHUB_ID}}/workshop-portfolio (fetch)
+    origin  https://github.com/{{YOUR_GITHUB_ID}}/workshop-portfolio (push)
+    upstream    https://github.com/dotnetgirls/workshop-portfolio (fetch)
+    upstream    https://github.com/dotnetgirls/workshop-portfolio (push)
+    ```
+
 1. In the terminal, enter the following commands to see whether your codespace is ready for app development.
 
     ```bash
