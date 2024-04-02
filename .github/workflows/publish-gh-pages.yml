@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'src/MyPortfolio/**'
+      - 'workshop/MyPortfolio/**'
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -55,22 +55,22 @@ jobs:
     - name: Restore NuGet packages
       shell: bash
       run: |
-        dotnet restore ./src
+        dotnet restore ./workshop
 
     - name: Build solution
       shell: bash
       run: |
-        dotnet build ./src -c Release
+        dotnet build ./workshop -c Release
 
     - name: Test solution
       shell: bash
       run: |
-        dotnet test ./src -c Release
+        dotnet test ./workshop -c Release
 
     - name: Publish artifact
       shell: bash
       run: |
-        dotnet publish ./src/MyPortfolio -c Release -o published
+        dotnet publish ./workshop/MyPortfolio -c Release -o published
 
     - name: Upload artifact for web
       uses: actions/upload-pages-artifact@v1
