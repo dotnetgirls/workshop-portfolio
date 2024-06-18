@@ -1,0 +1,46 @@
+@using System.Net.Http.Json
+@using MyPortfolio.Models
+
+<section class="light" id="about">
+    @if (heroAboutMe is not null)
+    {
+        <img class="background" src="@(heroAboutMe.Src)" alt="@(heroAboutMe.Alt)" />
+    }
+    <h2>About Myself</h2>
+    <div style="background-color: white; width: 50%; padding: 4rem; margin: 3rem auto; text-align: center;">
+    @if (aboutMe is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <p class="large">@aboutMe.Description</p>
+        <hr />
+        <ul style="text-align: left; columns: 2; font-size: 1.25rem; margin: 2rem 3rem; gap: 3rem;">
+        @foreach (var skill in aboutMe.Skills)
+        {
+            <li key="@skill">@skill</li>
+        }
+        </ul>
+        <hr />
+        <p style="padding: 1rem 3rem 0;">@aboutMe.DetailOrQuote</p>
+    }
+    </div>
+</section>
+
+@code {
+    private AboutMe? aboutMe;
+    private HeroImage? heroAboutMe;
+    
+    [Parameter, EditorRequired]
+    public HttpClient? Http { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public List<HeroImage> HeroImages { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        aboutMe = await Http.GetFromJsonAsync<AboutMe>("sample-data/aboutme.json");
+        heroAboutMe = HeroImages.SingleOrDefault(h => h.Name == "about");
+    }
+}
